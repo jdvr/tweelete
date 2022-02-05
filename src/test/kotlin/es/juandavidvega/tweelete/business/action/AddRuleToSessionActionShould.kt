@@ -3,8 +3,10 @@ package es.juandavidvega.tweelete.business.action
 import assertk.assertThat
 import assertk.assertions.*
 import es.juandavidvega.tweelete.business.action.errors.InvalidSessionIdError
-import es.juandavidvega.tweelete.business.client.TwitterClient
-import es.juandavidvega.tweelete.business.model.*
+import es.juandavidvega.tweelete.business.model.RuleType
+import es.juandavidvega.tweelete.business.model.Session
+import es.juandavidvega.tweelete.business.model.TweetContains
+import es.juandavidvega.tweelete.business.model.TweetedAfterDateRule
 import es.juandavidvega.tweelete.business.repository.SessionRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -32,8 +34,9 @@ class AddRuleToSessionActionShould {
 
         AddRuleToSessionAction(repository).execute(AddRuleToSessionCommand(givenSession.id, givenRules))
 
+        assertThat(sessionSlot.isCaptured).isTrue()
         assertThat(sessionSlot.captured.id).isEqualTo(givenSession.id)
-        assertThat(sessionSlot.captured.rules).isEqualTo(givenRules)
+        assertThat(sessionSlot.captured.rules).containsExactlyInAnyOrder(*givenRules.toTypedArray())
     }
 
     @Test fun
@@ -41,11 +44,10 @@ class AddRuleToSessionActionShould {
         val repository = mockk<SessionRepository>()
         every { repository.get(any()) } returns null
 
-        val action = LoadTweetsAction(repository, mockk<TwitterClient>())
+        val action = LoadTweetsAction(repository, mockk())
 
         assertThat { action.execute(LoadTweetsCommand("invalid")) }
             .isFailure()
             .isInstanceOf(InvalidSessionIdError::class)
     }
-
 }

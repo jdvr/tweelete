@@ -23,21 +23,25 @@ class CreateSessionActionShould {
         every { repository.save(session = capture(sessionSlot)) } returns Unit
 
         val givenSessionName = "mySession"
+        val givenUserId = "userId"
 
-        CreateSessionAction(repository).execute(CreateSessionCommand(givenSessionName))
+        CreateSessionAction(repository).execute(CreateSessionCommand(givenSessionName, givenUserId))
 
         assertThat(sessionSlot.captured.id).isNotEmpty()
         assertThat(sessionSlot.captured.name).isEqualTo(givenSessionName)
+        assertThat(sessionSlot.captured.userId).isEqualTo(givenUserId)
         assertThat(sessionSlot.captured.status).isEqualTo(SessionStatus.Draft)
     }
 
+
+    // FIXME this must be part of SessionShould
     @Test fun
     `Exception when creating a session with an empty name`() {
         val repository = mockk<SessionRepository>()
 
         val action = CreateSessionAction(repository)
 
-        assertThat { action.execute(CreateSessionCommand("")) }
+        assertThat { action.execute(CreateSessionCommand("", "userId")) }
             .isFailure()
             .isInstanceOf(SessionNameIsEmptyError::class)
     }
@@ -48,7 +52,7 @@ class CreateSessionActionShould {
 
         val action = CreateSessionAction(repository)
 
-        assertThat { action.execute(CreateSessionCommand("          ")) }
+        assertThat { action.execute(CreateSessionCommand("          ", "userId")) }
             .isFailure()
             .isInstanceOf(SessionNameIsEmptyError::class)
     }
