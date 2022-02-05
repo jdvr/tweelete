@@ -13,7 +13,11 @@ repositories {
 }
 
 dependencies {
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+
     testImplementation(kotlin("test"))
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
+    testImplementation("io.mockk:mockk:1.12.2")
 }
 
 tasks.test {
