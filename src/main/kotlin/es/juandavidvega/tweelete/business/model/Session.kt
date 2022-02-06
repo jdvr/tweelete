@@ -4,6 +4,7 @@ import es.juandavidvega.tweelete.business.model.errors.InvalidSessionStatusForRu
 import es.juandavidvega.tweelete.business.model.errors.SessionNameIsEmptyError
 import es.juandavidvega.tweelete.business.model.errors.SessionUserIdIsEmptyError
 import es.juandavidvega.tweelete.business.model.tweet.Tweet
+import org.apache.commons.lang3.builder.ToStringBuilder
 import java.util.UUID
 
 typealias DeleteTweet = (t: Tweet) -> Boolean
@@ -60,6 +61,10 @@ class Session private constructor(val name: String, val id: String, val userId: 
 
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    override fun toString(): String {
+        return "Session#$id"
     }
 
     companion object {

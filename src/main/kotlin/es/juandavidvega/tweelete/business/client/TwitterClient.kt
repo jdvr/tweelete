@@ -5,5 +5,5 @@ import es.juandavidvega.tweelete.business.model.tweet.Tweet
 
 interface TwitterClient {
     fun userTweetsAndLikes(rules: List<Rule> = emptyList()): List<Tweet>
-    suspend fun delete(tweet: Tweet): Boolean
+    fun delete(tweet: Tweet): Boolean
 }

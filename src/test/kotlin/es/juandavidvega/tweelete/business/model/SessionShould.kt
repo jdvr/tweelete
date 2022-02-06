@@ -164,7 +164,7 @@ class SessionShould {
     }
 
     @Test fun
-    `run again for Peding session`() {
+    `run again for Pending session`() {
         val mockDeleteTweet = mockk<DeleteTweet>()
         val mockUpdateProgress = mockk<UpdateProgress>()
 
