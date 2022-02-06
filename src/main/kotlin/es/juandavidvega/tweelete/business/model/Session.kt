@@ -11,8 +11,8 @@ class Session private constructor(val name: String, val id: String, val userId: 
     val status: SessionStatus = SessionStatus.Draft
 
     fun process(tweets: List<Tweet>) {
-        // TODO: define rules to filter session tweets
-        this.tweets.addAll(tweets)
+        val validTweets = tweets.filter { it.matchesOneOf(rules) }
+        this.tweets.addAll(validTweets)
     }
 
     fun updateRules(rules: List<Rule>) {

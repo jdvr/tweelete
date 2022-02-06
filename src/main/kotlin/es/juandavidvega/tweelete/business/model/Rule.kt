@@ -59,16 +59,17 @@ class TweetedBeforeDateRule(val date: LocalDate, type: RuleType): Rule(type) {
     }
 }
 
-class TweetContains(val text: String, type: RuleType): Rule(type) {
+class TweetContainsRule(text: String, type: RuleType): Rule(type) {
+    private val text = text.lowercase()
     override fun match(tweet: Tweet): Boolean {
-        TODO("Not yet implemented")
+        return tweet.text.lowercase().contains(text.lowercase())
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as TweetContains
+        other as TweetContainsRule
 
         return EqualsBuilder()
             .append(text, other.text)

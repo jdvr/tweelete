@@ -5,7 +5,7 @@ import assertk.assertions.*
 import es.juandavidvega.tweelete.business.action.errors.InvalidSessionIdError
 import es.juandavidvega.tweelete.business.model.RuleType
 import es.juandavidvega.tweelete.business.model.Session
-import es.juandavidvega.tweelete.business.model.TweetContains
+import es.juandavidvega.tweelete.business.model.TweetContainsRule
 import es.juandavidvega.tweelete.business.model.TweetedAfterDateRule
 import es.juandavidvega.tweelete.business.repository.SessionRepository
 import io.mockk.every
@@ -23,7 +23,7 @@ class AddRuleToSessionActionShould {
         val givenSession = Session.createWith("dummySession", "anyUserId")
         val givenRules = listOf(
             TweetedAfterDateRule(LocalDate.now(), RuleType.Exclude),
-            TweetContains("test", RuleType.Include)
+            TweetContainsRule("test", RuleType.Include)
         )
 
         val repository = mockk<SessionRepository>()
